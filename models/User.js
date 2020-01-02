@@ -6,6 +6,12 @@ const userSchema = new Schema({
   email: String,
   createdAt: String,
   role: String,
+  sessions: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Session"
+    }
+  ],
   blockers: [
     {
       body: String,
@@ -13,12 +19,6 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Session"
       }
-    }
-  ],
-  sessions: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Session"
     }
   ]
 });
