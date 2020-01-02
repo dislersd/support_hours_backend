@@ -1,0 +1,6 @@
+data = {
+  date: String,
+  attendees: [
+    
+  ]
+}
