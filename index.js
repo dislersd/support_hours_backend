@@ -2,15 +2,30 @@ const { ApolloServer } = require("apollo-server");
 const gql = require("graphql-tag");
 const mongoose = require("mongoose");
 
+const Session = require("./models/Session");
+const { MONGODB } = require("./config");
+
 const typeDefs = gql`
+  type Session {
+    id: ID!
+    date: String!
+    attendees: [String]!
+  }
   type Query {
-    sayHi: String!
+    getSessions: [Session]
   }
 `;
 
 const resolvers = {
   Query: {
-    sayHi: () => "Hello World!"
+    async getSessions() {
+      try {
+        const sessions = await Session.find();
+        return sessions;
+      } catch (error) {
+        throw new Error(error);
+      }
+    }
   }
 };
 
@@ -19,7 +34,6 @@ const server = new ApolloServer({
   resolvers
 });
 
-const { MONGODB } = require("./config");
 mongoose
   .connect(MONGODB, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
