@@ -21,9 +21,12 @@ module.exports = gql`
   }
   type Query {
     getSessions: [Session]
+    getSession(sessionId: ID!): Session
   }
   type Mutation {
     register(registerInput: RegisterInput): User!
     login(username: String!, password: String!): User!
+    createSession(date: String!): Session!
+    deleteSession(sessionId: ID!): String!
   }
 `;

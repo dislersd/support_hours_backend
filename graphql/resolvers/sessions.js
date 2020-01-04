@@ -9,7 +9,18 @@ module.exports = {
       } catch (error) {
         throw new Error(error);
       }
+    },
+    async getSession(_, { sessionId }) {
+      try {
+        const session = await Session.findById(sessionId);
+        if (session) {
+          return session;
+        } else {
+          throw new Error("Session not found");
+        }
+      } catch (error) {
+        throw new Error(error);
+      }
     }
   }
 };
-
