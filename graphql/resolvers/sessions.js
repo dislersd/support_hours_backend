@@ -1,4 +1,5 @@
 const Session = require("../../models/Session");
+const checkAuth = require("../../utils/check-auth");
 
 module.exports = {
   Query: {
@@ -22,5 +23,23 @@ module.exports = {
         throw new Error(error);
       }
     }
+  },
+  Mutation: {
+    async createSession(_, {}, context) {
+      const user = checkAuth(context);
+      console.log(user);
+
+      const newSession = new Session({
+        date: new Date().toISOString(),
+        attendees: []
+      });
+
+      const session = await newSession.save();
+
+      return session;
+    },
+    // async joinSession(_, {}, context){
+
+    // }
   }
 };
