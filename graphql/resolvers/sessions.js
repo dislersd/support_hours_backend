@@ -26,18 +26,31 @@ module.exports = {
   },
   Mutation: {
     async createSession(_, {}, context) {
+      // TODO create authorization middlewear so only admins can create sessions
+
       const user = checkAuth(context);
       console.log(user);
 
-      const newSession = new Session({
-        date: new Date().toISOString(),
-        attendees: []
-      });
+      try {
+        if (user.role === "admin") {
+          const newSession = new Session({
+            date: new Date().toISOString(),
+            attendees: []
+          });
 
-      const session = await newSession.save();
+          const session = await newSession.save();
 
-      return session;
+          return session;
+        } else {
+          throw new Error("You are not authorized to create a new session");
+        }
+      } catch (error) {
+        throw new Error(error);
+      }
     },
+    async deleteSession(_, { postId }, context) {
+      const user = checkAuth(context);
+    }
     // async joinSession(_, {}, context){
 
     // }

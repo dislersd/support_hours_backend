@@ -14,7 +14,8 @@ function generateToken(user) {
     {
       id: user.id,
       email: user.email,
-      username: user.username
+      username: user.username,
+      role: user.role
     },
     SECRET_KEY,
     { expiresIn: "3h" }
