@@ -1,3 +1,5 @@
+const { AuthenticationError } = require("apollo-server");
+
 const Session = require("../../models/Session");
 const checkAuth = require("../../utils/check-auth");
 
@@ -42,14 +44,29 @@ module.exports = {
 
           return session;
         } else {
-          throw new Error("You are not authorized to create a new session");
+          throw new AuthenticationError(
+            "You are not authorized to create a new session"
+          );
         }
       } catch (error) {
         throw new Error(error);
       }
     },
-    async deleteSession(_, { postId }, context) {
+    async deleteSession(_, { sessionId }, context) {
       const user = checkAuth(context);
+      try {
+        const session = await Session.findById(sessionId);
+        if (user.role === "admin") {
+          await session.delete();
+          return "Session deleted successfully";
+        } else {
+          throw new AuthenticationError(
+            "You are not authorized to delete a session"
+          );
+        }
+      } catch (error) {
+        throw new Error(error);
+      }
     }
     // async joinSession(_, {}, context){
 
