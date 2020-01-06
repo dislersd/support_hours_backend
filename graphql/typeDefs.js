@@ -29,5 +29,6 @@ module.exports = gql`
     login(username: String!, password: String!): User!
     createSession: Session!
     deleteSession(sessionId: ID!): String!
+    joinSession(sessionId: ID!): String!
   }
 `;

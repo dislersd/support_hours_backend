@@ -28,8 +28,6 @@ module.exports = {
   },
   Mutation: {
     async createSession(_, {}, context) {
-      // TODO create authorization middlewear so only admins can create sessions
-
       const user = checkAuth(context);
       console.log(user);
 
@@ -67,9 +65,25 @@ module.exports = {
       } catch (error) {
         throw new Error(error);
       }
+    },
+    async joinSession(_, { sessionId }, context) {
+      const user = checkAuth(context);
+      try {
+        if (user) {
+          const session = await Session.findById(sessionId);
+          if (session) {
+            session.attendees.push(user.username);
+            await session.save();
+            return `You have successfully joined the session happening on ${session.date}`;
+          } else {
+            throw new Error("Session not found");
+          }
+        } else {
+          throw new Error("You must be logged in to join a session");
+        }
+      } catch (error) {
+        throw new Error(error);
+      }
     }
-    // async joinSession(_, {}, context){
-
-    // }
   }
 };
