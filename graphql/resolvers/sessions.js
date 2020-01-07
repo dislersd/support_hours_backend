@@ -1,4 +1,5 @@
 const { AuthenticationError } = require("apollo-server");
+var ObjectId = require("mongoose").Types.ObjectId;
 
 const Session = require("../../models/Session");
 const checkAuth = require("../../utils/check-auth");
@@ -72,7 +73,9 @@ module.exports = {
         if (user) {
           const session = await Session.findById(sessionId);
           if (session) {
-            session.attendees.push(user.username);
+            console.log("userr", user);
+            session.attendees.push(user.id);
+            console.log("wagwan", session.attendees);
             await session.save();
             return `You have successfully joined the session happening on ${session.date}`;
           } else {
@@ -80,6 +83,31 @@ module.exports = {
           }
         } else {
           throw new Error("You must be logged in to join a session");
+        }
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    async leaveSession(_, { sessionId }, context) {
+      const user = checkAuth(context);
+      console.log("user", user);
+      try {
+        if (user) {
+          const session = await Session.findById(sessionId);
+          if (session) {
+            console.log(session.attendees);
+            console.log(user.id);
+
+            await session.attendees.pull(user.username);
+
+            console.log("after", session.attendees);
+            await session.save();
+            return "You have successfully canceled your session";
+          } else {
+            throw new Error("Session not found");
+          }
+        } else {
+          throw new Error("You must be logged in to do that");
         }
       } catch (error) {
         throw new Error(error);

@@ -9,7 +9,7 @@ const userSchema = new Schema({
   sessions: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Session"
+      ref: "sessions"
     }
   ],
   blockers: [
@@ -17,10 +17,10 @@ const userSchema = new Schema({
       body: String,
       session: {
         type: Schema.Types.ObjectId,
-        ref: "Session"
+        ref: "sessions"
       }
     }
   ]
 });
 
-module.exports = model("User", userSchema);
+module.exports = model("User", userSchema, "users");
