@@ -75,7 +75,6 @@ module.exports = {
           if (session) {
             console.log("userr", user);
             session.attendees.push(user.id);
-            console.log("wagwan", session.attendees);
             await session.save();
             return `You have successfully joined the session happening on ${session.date}`;
           } else {
@@ -95,12 +94,7 @@ module.exports = {
         if (user) {
           const session = await Session.findById(sessionId);
           if (session) {
-            console.log(session.attendees);
-            console.log(user.id);
-
-            await session.attendees.pull(user.username);
-
-            console.log("after", session.attendees);
+            await session.attendees.pull(user.id);
             await session.save();
             return "You have successfully canceled your session";
           } else {
