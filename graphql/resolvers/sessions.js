@@ -1,7 +1,7 @@
 const { AuthenticationError } = require("apollo-server");
-var ObjectId = require("mongoose").Types.ObjectId;
 
 const Session = require("../../models/Session");
+const User = require("../../models/User");
 const checkAuth = require("../../utils/check-auth");
 
 module.exports = {
@@ -76,6 +76,12 @@ module.exports = {
             console.log("userr", user);
             session.attendees.push(user.id);
             await session.save();
+
+            const dbUser = await User.findById(user.id);
+
+            dbUser.sessions.push(sessionId);
+            await dbUser.save();
+
             return `You have successfully joined the session happening on ${session.date}`;
           } else {
             throw new Error("Session not found");

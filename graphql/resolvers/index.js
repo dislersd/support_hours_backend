@@ -1,5 +1,6 @@
 const sessionResolvers = require("./sessions");
 const usersResolvers = require("./users");
+const blockersResolvers = require("./blockers");
 
 module.exports = {
   Query: {
@@ -7,6 +8,7 @@ module.exports = {
   },
   Mutation: {
     ...usersResolvers.Mutation,
-    ...sessionResolvers.Mutation
+    ...sessionResolvers.Mutation,
+    ...blockersResolvers.Mutation
   }
 };

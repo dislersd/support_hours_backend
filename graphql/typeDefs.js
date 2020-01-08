@@ -13,6 +13,12 @@ module.exports = gql`
     username: String!
     createdAt: String!
     role: String!
+    blockers: [Blocker]!
+  }
+  type Blocker {
+    id: ID!
+    body: String!
+    forSession: ID!
   }
   input RegisterInput {
     username: String!
@@ -31,5 +37,6 @@ module.exports = gql`
     deleteSession(sessionId: ID!): String!
     joinSession(sessionId: ID!): String!
     leaveSession(sessionId: ID!): String!
+    createBlocker(postId: ID!, body: String): User!
   }
 `;
