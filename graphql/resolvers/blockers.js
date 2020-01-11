@@ -16,6 +16,7 @@ module.exports = {
       }
       const user = await User.findById(id);
       console.log(user);
+      console.log(typeof postId)
       if (user) {
         user.blockers.push({
           body,

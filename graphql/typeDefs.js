@@ -18,7 +18,7 @@ module.exports = gql`
   type Blocker {
     id: ID!
     body: String!
-    forSession: ID!
+    forSession: String!
   }
   input RegisterInput {
     username: String!

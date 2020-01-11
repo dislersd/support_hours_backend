@@ -15,10 +15,7 @@ const userSchema = new Schema({
   blockers: [
     {
       body: String,
-      session: {
-        type: Schema.Types.ObjectId,
-        ref: "sessions"
-      }
+      forSession: String
     }
   ]
 });
