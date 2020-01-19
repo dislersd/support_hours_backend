@@ -5,7 +5,7 @@ const User = require("../../models/User");
 
 module.exports = {
   Mutation: {
-    createBlocker: async (_, { postId, body }, context) => {
+    createBlocker: async (_, { sessionId, body }, context) => {
       const { id } = checkAuth(context);
       if (body.trim === "") {
         throw new UserInputError("Empty blocker", {
@@ -15,12 +15,10 @@ module.exports = {
         });
       }
       const user = await User.findById(id);
-      console.log(user);
-      console.log(typeof postId)
       if (user) {
         user.blockers.push({
           body,
-          forSession: postId
+          forSession: sessionId
         });
         await user.save();
         console.log(user.blockers);

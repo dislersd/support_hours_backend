@@ -73,7 +73,6 @@ module.exports = {
         if (user) {
           const session = await Session.findById(sessionId);
           if (session) {
-            console.log("userr", user);
             session.attendees.push(user.id);
             await session.save();
 
@@ -102,6 +101,17 @@ module.exports = {
           if (session) {
             await session.attendees.pull(user.id);
             await session.save();
+
+            const userFromDb = await User.findById(user.id);
+            const blockerIndex = userFromDb.blockers.findIndex(
+              b => b.forSession === sessionId
+            );
+
+            if (userFromDb.blockers[blockerIndex].forSession === sessionId) {
+              userFromDb.blockers.splice(blockerIndex, 1);
+              await userFromDb.save();
+            }
+
             return "You have successfully canceled your session";
           } else {
             throw new Error("Session not found");
