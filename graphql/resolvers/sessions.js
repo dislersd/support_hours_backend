@@ -30,7 +30,6 @@ module.exports = {
   Mutation: {
     async createSession(_, {}, context) {
       const user = checkAuth(context);
-      console.log(user);
 
       try {
         if (user.role === "admin") {
@@ -94,7 +93,6 @@ module.exports = {
     },
     async leaveSession(_, { sessionId }, context) {
       const user = checkAuth(context);
-      console.log("user", user);
       try {
         if (user) {
           const session = await Session.findById(sessionId);

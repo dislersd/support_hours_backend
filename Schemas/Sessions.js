@@ -1,6 +1,0 @@
-data = {
-  date: String,
-  attendees: [
-    
-  ]
-}

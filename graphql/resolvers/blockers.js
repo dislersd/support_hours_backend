@@ -21,7 +21,6 @@ module.exports = {
           forSession: sessionId
         });
         await user.save();
-        console.log(user.blockers);
         return user;
       } else throw new UserInputError("User not found");
     }
