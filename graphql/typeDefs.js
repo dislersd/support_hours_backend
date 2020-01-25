@@ -33,7 +33,7 @@ module.exports = gql`
   type Mutation {
     register(registerInput: RegisterInput): User!
     login(username: String!, password: String!): User!
-    createSession: Session!
+    createSession(sessionDate: String!): Session!
     deleteSession(sessionId: ID!): String!
     joinSession(sessionId: ID!): String!
     leaveSession(sessionId: ID!): String!

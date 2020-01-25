@@ -28,13 +28,13 @@ module.exports = {
     }
   },
   Mutation: {
-    async createSession(_, {}, context) {
+    async createSession(_, { sessionDate }, context) {
       const user = checkAuth(context);
 
       try {
         if (user.role === "admin") {
           const newSession = new Session({
-            date: new Date().toISOString(),
+            date: sessionDate,
             attendees: []
           });
 
