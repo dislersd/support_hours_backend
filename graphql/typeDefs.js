@@ -4,7 +4,7 @@ module.exports = gql`
   type Session {
     id: ID!
     date: String!
-    attendees: [ID]!
+    attendees: [String]!
   }
   type User {
     id: ID!

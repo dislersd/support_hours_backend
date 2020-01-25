@@ -2,12 +2,7 @@ const { model, Schema } = require("mongoose");
 
 const sessionSchema = new Schema({
   date: String,
-  attendees: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "users"
-    }
-  ],
+  attendees: [String],
   comments: {
     body: String,
     username: String,

@@ -72,7 +72,7 @@ module.exports = {
         if (user) {
           const session = await Session.findById(sessionId);
           if (session) {
-            session.attendees.push(user.id);
+            session.attendees.push(user.username);
             await session.save();
 
             const dbUser = await User.findById(user.id);
@@ -95,19 +95,28 @@ module.exports = {
       const user = checkAuth(context);
       try {
         if (user) {
+          console.log(user);
           const session = await Session.findById(sessionId);
           if (session) {
-            await session.attendees.pull(user.id);
+            await session.attendees.pull(user.username);
             await session.save();
 
             const userFromDb = await User.findById(user.id);
-            const blockerIndex = userFromDb.blockers.findIndex(
-              b => b.forSession === sessionId
-            );
 
-            if (userFromDb.blockers[blockerIndex].forSession === sessionId) {
-              userFromDb.blockers.splice(blockerIndex, 1);
-              await userFromDb.save();
+            if (
+              userFromDb.blockers.filter(b => b.forSession === sessionId)
+                .length > 0
+            ) {
+              const blockerIndex = userFromDb.blockers.findIndex(
+                b => b.forSession === sessionId
+              );
+
+              if (userFromDb.blockers[blockerIndex].forSession === sessionId) {
+                userFromDb.blockers.splice(blockerIndex, 1);
+                await userFromDb.save();
+              }
+            } else {
+              console.log("no blockers");
             }
 
             return "You have successfully canceled your session";
