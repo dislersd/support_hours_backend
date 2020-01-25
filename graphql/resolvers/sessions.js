@@ -72,6 +72,9 @@ module.exports = {
         if (user) {
           const session = await Session.findById(sessionId);
           if (session) {
+            if (session.attendees.includes(user.username)) {
+              throw new Error("You have already joined this session");
+            }
             session.attendees.push(user.username);
             await session.save();
 
