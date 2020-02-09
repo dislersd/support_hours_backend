@@ -35,8 +35,8 @@ module.exports = gql`
     login(username: String!, password: String!): User!
     createSession(sessionDate: String!): Session!
     deleteSession(sessionId: ID!): String!
-    joinSession(sessionId: ID!): String!
-    leaveSession(sessionId: ID!): String!
+    joinSession(sessionId: ID!): Session!
+    leaveSession(sessionId: ID!): Session!
     createBlocker(sessionId: ID!, body: String): User!
   }
 `;

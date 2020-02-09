@@ -83,7 +83,7 @@ module.exports = {
             dbUser.sessions.push(sessionId);
             await dbUser.save();
 
-            return `You have successfully joined the session happening on ${session.date}`;
+            return session;
           } else {
             throw new Error("Session not found");
           }
@@ -122,7 +122,8 @@ module.exports = {
               console.log("no blockers");
             }
 
-            return "You have successfully canceled your session";
+            return session;
+            
           } else {
             throw new Error("Session not found");
           }
